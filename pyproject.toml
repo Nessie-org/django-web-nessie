@@ -1,0 +1,9 @@
+[project]
+name = "django-web-nessie"
+version = "0.1.0"
+description = "django implamentation of platform nessie"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.0.3",
+]

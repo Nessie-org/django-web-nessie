@@ -11,5 +11,5 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-nessie-api = { git = "https://github.com/Nessie-org/nessie-api.git" }
 nessie-platform = { git = "https://github.com/Nessie-org/Nessie.git" }
+nessie-api = { git = "https://github.com/Nessie-org/nessie-api.git" }

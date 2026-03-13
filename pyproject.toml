@@ -6,9 +6,12 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "django>=6.0.3",
-    "nessie-api",
-    "nessie-platform",
+    "nessie-api @ git+https://github.com/Nessie-org/nessie-api.git",
+    "nessie-platform @ git+https://github.com/Nessie-org/Nessie.git",
 ]
+
+[tool.setuptools.packages.find]
+include = ["myapp*", "myproject*"]
 
 [tool.uv.sources]
 nessie-platform = { git = "https://github.com/Nessie-org/Nessie.git" }

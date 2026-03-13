@@ -31,10 +31,29 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
+    { name = "nessie-api" },
+    { name = "nessie-platform" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "django", specifier = ">=6.0.3" }]
+requires-dist = [
+    { name = "django", specifier = ">=6.0.3" },
+    { name = "nessie-api", git = "https://github.com/Nessie-org/nessie-api.git" },
+    { name = "nessie-platform", git = "https://github.com/Nessie-org/Nessie.git" },
+]
+
+[[package]]
+name = "nessie-api"
+version = "0.1.0"
+source = { git = "https://github.com/Nessie-org/nessie-api.git#2396e3d10a4155f01519bca8fc547d55782b7374" }
+
+[[package]]
+name = "nessie-platform"
+version = "0.1.0"
+source = { git = "https://github.com/Nessie-org/Nessie.git#719699ef2c3561bfdfe70f0a3aa18533b079ee92" }
+dependencies = [
+    { name = "nessie-api" },
+]
 
 [[package]]
 name = "sqlparse"

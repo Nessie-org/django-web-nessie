@@ -1,0 +1,18 @@
+[project]
+name = "django-web-nessie"
+version = "0.1.0"
+description = "django implamentation of platform nessie"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.0.3",
+    "nessie-api @ git+https://github.com/Nessie-org/nessie-api.git",
+    "nessie-platform @ git+https://github.com/Nessie-org/Nessie.git",
+]
+
+[tool.setuptools.packages.find]
+include = ["myapp*", "myproject*"]
+
+[tool.uv.sources]
+nessie-platform = { git = "https://github.com/Nessie-org/Nessie.git" }
+nessie-api = { git = "https://github.com/Nessie-org/nessie-api.git" }

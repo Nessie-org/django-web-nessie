@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ## Running the server
 
 ```bash
-python main
+python main.py
 ```
 
 ---

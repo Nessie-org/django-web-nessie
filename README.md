@@ -1,103 +1,126 @@
-# neisse-graph-visualiser-block
+# django-web-nessie
 
-A [Nessie](https://github.com/Nessie-org) block that takes a graph data structure and returns an interactive HTML visualisation.
-
----
-
-## Overview
-
-`neisse-graph-visualiser-block` exposes a single action — `visualise_graph` — which accepts a graph object and returns a self-contained HTML string that renders the graph visually in any browser or webview.
-
----
-
-## Action
-
-### `visualise_graph`
-
-Renders a graph data structure as an HTML visualisation.
-
-| Field         | Details                          |
-|---------------|----------------------------------|
-| **Action**    | `visualise_graph`                |
-| **Payload**   | `{ Graph }`                      |
-| **Returns**   | `String` — HTML content          |
-| **Side effects** | None                          |
-| **Setup required** | None                       |
-
-#### Payload
-
-```json
-{
-  "Graph": <Graph>
-}
-```
-
-The `Graph` object should describe nodes and edges in the format expected by the block's underlying renderer. See [Usage](#usage) for an example.
-
-#### Return value
-
-A `String` containing a complete, self-contained HTML document (or embeddable HTML fragment) that renders the supplied graph. This can be written to a file, injected into a `<div>`, or loaded inside an `<iframe>`.
-
----
-
-## Usage
-
-```js
-const result = await block.run("visualise_graph", {
-  Graph: {
-    nodes: [
-      { id: "A", label: "Node A" },
-      { id: "B", label: "Node B" },
-      { id: "C", label: "Node C" }
-    ],
-    edges: [
-      { from: "A", to: "B" },
-      { from: "B", to: "C" }
-    ]
-  }
-});
-
-// result is an HTML string — render it however you like
-document.getElementById("graph-container").innerHTML = result;
-```
+A Django web server for the [Nessie](https://github.com/Nessie-org) ecosystem. It serves a frontend interface and exposes a REST API for discovering and executing Nessie plugins.
 
 ---
 
 ## Installation
 
-Install directly from the GitHub repository using pip:
+Clone the repository and install dependencies from `requirements.txt`:
 
 ```bash
-pip install git+https://github.com/Nessie-org/neisse-graph-visualiser-block.git
-```
-
-To pin to a specific branch or tag:
-
-```bash
-# Latest from main
-pip install git+https://github.com/Nessie-org/neisse-graph-visualiser-block.git@main
-
-# Specific tag / release
-pip install git+https://github.com/Nessie-org/neisse-graph-visualiser-block.git@v1.0.0
-```
-
-Or add it to your `requirements.txt`:
-
-```
-git+https://github.com/Nessie-org/neisse-graph-visualiser-block.git
+git clone https://github.com/Nessie-org/django-web-nessie.git
+cd django-web-nessie
+pip install -r requirements.txt
 ```
 
 ---
 
-## Setup
+## Running the server
 
-No setup or configuration is required after installation. The block has no external dependencies that need to be authenticated before use.
+```bash
+python main
+```
+
+---
+
+## Backend Endpoints
+
+### `GET` — Index
+
+Serves the main HTML interface. Any URL that does not match a defined route will fall through to this handler.
+
+| Field            | Details              |
+|------------------|----------------------|
+| **Method**       | `GET`                |
+| **URL**          | any unspecified route |
+| **Body**         | not expected         |
+| **Query params** | not expected         |
+| **Returns**      | `HTML`               |
+
+---
+
+### `POST` — Perform Action
+
+Executes a named action using a specified plugin.
+
+| Field            | Details                  |
+|------------------|--------------------------|
+| **Method**       | `POST`                   |
+| **URL**          | `/perform-action`        |
+| **Body**         | JSON (see below)         |
+| **Query params** | not expected             |
+| **Returns**      | `HTML`                   |
+
+#### Request body
+
+```json
+{
+  "Action Name": "the action you want to perform",
+  "payload": {
+    "...": "plugin-specific fields"
+  },
+  "Plugin Name": "name of the plugin that handles this action"
+}
+```
+
+#### Example
+
+```json
+{
+  "Action Name": "visualise_graph",
+  "payload": {
+    "Graph": {
+      "nodes": [{ "id": "A" }, { "id": "B" }],
+      "edges": [{ "from": "A", "to": "B" }]
+    }
+  },
+  "Plugin Name": "neisse-graph-visualiser-block"
+}
+```
+
+---
+
+### `GET` — Get Plugins
+
+Returns a list of plugins that support a given action.
+
+| Field            | Details                          |
+|------------------|----------------------------------|
+| **Method**       | `GET`                            |
+| **URL**          | `/plugins`                       |
+| **Body**         | not expected                     |
+| **Query params** | `Action Name` — the action name  |
+| **Returns**      | `JSON`                           |
+
+#### Query param
+
+| Param         | Type     | Description                              |
+|---------------|----------|------------------------------------------|
+| `Action Name` | `string` | The action name to filter plugins by     |
+
+#### Example request
+
+```
+GET /plugins?Action Name=visualise_graph
+```
+
+#### Response
+
+```json
+[
+  {
+    "name": "neisse-graph-visualiser-block",
+    "requirements": {}
+  }
+]
+```
 
 ---
 
 ## Repository
 
-[https://github.com/Nessie-org/neisse-graph-visualiser-block](https://github.com/Nessie-org/neisse-graph-visualiser-block)
+[https://github.com/Nessie-org/django-web-nessie](https://github.com/Nessie-org/django-web-nessie)
 
 ---
 

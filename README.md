@@ -8,12 +8,14 @@ A Django web server for the [Nessie](https://github.com/Nessie-org) ecosystem. I
 
 Clone the repository and install dependencies from `requirements.txt`:
 
+It is necessary to install web, one visualization plugin as well as data provider plugin that web server could work properly.
+
 ```bash
 git clone https://github.com/Nessie-org/django-web-nessie.git
 cd django-web-nessie
 pip install -r requirements.txt
 ```
-It is necessary to install web , one visualization plugina as well as data provider plugin that web server could work properly.
+
 ---
 
 ## Running the server
